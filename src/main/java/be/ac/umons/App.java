@@ -19,7 +19,6 @@ public class App extends Application {
     private Stage stage;
     private static Scene scene;
 
-
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;

@@ -16,5 +16,7 @@
       <ListView fx:id="listCommande" layoutX="334.0" layoutY="87.0" prefHeight="200.0" prefWidth="200.0" />
       <Label layoutX="397.0" layoutY="64.0" text="Commande" />
       <Button fx:id="commander" layoutX="402.0" layoutY="302.0" mnemonicParsing="false" onAction="#handleCommander" text="Commander" />
+      <Button fx:id="retour" layoutX="14.0" layoutY="353.0" mnemonicParsing="false" onAction="#handleRetour" text="retour" />
+      <Label fx:id="titre" layoutX="250.0" layoutY="39.0" text="Label" />
    </children>
 </Pane>

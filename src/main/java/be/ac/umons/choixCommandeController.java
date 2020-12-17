@@ -3,6 +3,7 @@ package be.ac.umons;
 import be.ac.umons.database.DBSingleton;
 import be.ac.umons.decorationPizza.Cheesy;
 import be.ac.umons.decorationPizza.Decoration;
+import be.ac.umons.decorationPizza.Pan;
 import be.ac.umons.pizzas.Carbonara;
 import be.ac.umons.pizzas.FruttiDiMare;
 import be.ac.umons.pizzas.Margherita;
@@ -14,6 +15,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -31,6 +35,8 @@ public class choixCommandeController {
     ObservableList<String> listDeco = FXCollections.observableArrayList("Cheesy", "Pan", "Aucune");
     Map<String, Ingredient> ingredients = new HashMap<>();
     ArrayList<Pizza> commande = new ArrayList<>();
+
+    String factory = choixFactoryController.factoryReturn();
 
     /*try {
         DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:3306/tp6_db_java", "root", "");
@@ -54,21 +60,21 @@ public class choixCommandeController {
         System.out.print(AnsiColor.RESET);
     }*/
 
-    @FXML
-    private ChoiceBox choixPizza;
-    @FXML
-    private ChoiceBox choixDeco;
+    @FXML private ChoiceBox choixPizza;
+    @FXML private ChoiceBox choixDeco;
+    @FXML private ListView commandeView;
+    @FXML private Label titre;
 
-    @FXML
-    private void initialize(){
+    @FXML private void initialize(){
         choixPizza.setValue("Margherita");
         choixPizza.setItems(listPizza);
         choixDeco.setValue("Aucune");
         choixDeco.setItems(listDeco);
+        titre.setText("Bienvenue chez "+factory);
+        //commandeView.getItems().addAll(commande.toString());
     }
 
-    @FXML
-    protected void handleAjouter (ActionEvent event) throws IOException {
+    @FXML protected void handleAjouter (ActionEvent event) throws IOException {
         String p = (String) choixPizza.getSelectionModel().getSelectedItem();
         String d = (String) choixDeco.getSelectionModel().getSelectedItem();
         if (p == "Margherita"){
@@ -77,7 +83,7 @@ public class choixCommandeController {
                 Decoration deco = new Cheesy(pizza);
             }
             else if (d == "Pan"){
-                Decoration deco = new Cheesy(pizza);
+                Decoration deco = new Pan(pizza);
             }
             commande.add(pizza);
         }
@@ -87,7 +93,7 @@ public class choixCommandeController {
                 Decoration deco = new Cheesy(pizza);
             }
             else if (d == "Pan"){
-                Decoration deco = new Cheesy(pizza);
+                Decoration deco = new Pan(pizza);
             }
             commande.add(pizza);
         }
@@ -97,7 +103,7 @@ public class choixCommandeController {
                 Decoration deco = new Cheesy(pizza);
             }
             else if (d == "Pan"){
-                Decoration deco = new Cheesy(pizza);
+                Decoration deco = new Pan(pizza);
             }
             commande.add(pizza);
         }
@@ -107,7 +113,7 @@ public class choixCommandeController {
                 Decoration deco = new Cheesy(pizza);
             }
             else if (d == "Pan"){
-                Decoration deco = new Cheesy(pizza);
+                Decoration deco = new Pan(pizza);
             }
             commande.add(pizza);
         }
@@ -115,8 +121,20 @@ public class choixCommandeController {
         System.out.println(commande);
     }
 
-    @FXML
-    protected void handleCommander (ActionEvent event) throws IOException {
+    @FXML protected void handleCommander (ActionEvent event) throws IOException {
+        /*
+        1 si on est en panne (soit de facon random soit tout les X pizza) -> PANNE
+        2 si il manque des ingrédients -> MANQUE :
+            somme(commande -> chaque Pizza(sauce,tomate,fromage) -> chaque ingredient) <<<<<<<< Map = ingredients
+            solution = Map(String,Quantite)->Quantite++ a la cle String
+        3 Sinon -> FABRICATION => 2 Thread qui se partage les pizza (60s/pizza)
+        -> context.setState(Fabrication)
+        context.currentState()
+        */
+    }
+
+    @FXML protected void handleRetour (ActionEvent event) throws IOException{
+        App.setRoot("choixFactory");
     }
 
     /**
