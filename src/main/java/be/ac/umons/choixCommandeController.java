@@ -35,9 +35,9 @@ public class choixCommandeController {
     ObservableList<String> listDeco = FXCollections.observableArrayList("Cheesy", "Pan", "Aucune");
     Map<String, Ingredient> ingredients = new HashMap<>();
     ArrayList<Pizza> commande = new ArrayList<>();
-
     String factory = choixFactoryController.factoryReturn();
 
+    // mettre dans main dans une fonction /!\ faire une methode static pour return la map dans la classe controller (voir factoryReturn)
     /*try {
         DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:3306/tp6_db_java", "root", "");
         ResultSet rs = db.querySelect("SELECT * FROM ingredients");
@@ -124,9 +124,11 @@ public class choixCommandeController {
     @FXML protected void handleCommander (ActionEvent event) throws IOException {
         /*
         1 si on est en panne (soit de facon random soit tout les X pizza) -> PANNE
+
         2 si il manque des ingrédients -> MANQUE :
             somme(commande -> chaque Pizza(sauce,tomate,fromage) -> chaque ingredient) <<<<<<<< Map = ingredients
             solution = Map(String,Quantite)->Quantite++ a la cle String
+
         3 Sinon -> FABRICATION => 2 Thread qui se partage les pizza (60s/pizza)
         -> context.setState(Fabrication)
         context.currentState()
