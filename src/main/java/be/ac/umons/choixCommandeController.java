@@ -8,7 +8,6 @@ import be.ac.umons.pizzas.Carbonara;
 import be.ac.umons.pizzas.FruttiDiMare;
 import be.ac.umons.pizzas.Margherita;
 import be.ac.umons.pizzas.Proscuitto;
-import be.ac.umons.util.AnsiColor;
 import be.ac.umons.util.ColorPrint;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -33,32 +31,9 @@ public class choixCommandeController {
 
     ObservableList<String> listPizza = FXCollections.observableArrayList("Margherita", "Proscuitto", "Carbonara","FruttiDiMare");
     ObservableList<String> listDeco = FXCollections.observableArrayList("Cheesy", "Pan", "Aucune");
-    Map<String, Ingredient> ingredients = new HashMap<>();
     ArrayList<Pizza> commande = new ArrayList<>();
+    Map<String, Ingredient> ingredients = new HashMap<>();
     String factory = choixFactoryController.factoryReturn();
-
-    // mettre dans main dans une fonction /!\ faire une methode static pour return la map dans la classe controller (voir factoryReturn)
-    /*try {
-        DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:3306/tp6_db_java", "root", "");
-        ResultSet rs = db.querySelect("SELECT * FROM ingredients");
-        while (rs.next()) {
-            Ingredient ingredient = new Ingredient();
-            ingredient.setName(rs.getString("name"));
-            ingredient.setPrice(rs.getBigDecimal("price"));
-            ingredient.setStock(rs.getInt("stock"));
-            ingredients.put(ingredient.getName(), ingredient);
-            //ingredient.register(obs);
-            //obs.setSubject(ingredient);
-        }
-        rs.close();
-        //updateQueryDemo();
-    } catch (SQLException e) {
-        ColorPrint.printError("SQL ERROR : " + e.getMessage());
-    } catch (NullPointerException e) {
-        System.out.print(AnsiColor.RED);
-        e.printStackTrace();
-        System.out.print(AnsiColor.RESET);
-    }*/
 
     @FXML private ChoiceBox choixPizza;
     @FXML private ChoiceBox choixDeco;
