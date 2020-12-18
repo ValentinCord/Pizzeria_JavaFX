@@ -76,4 +76,8 @@ public class App extends Application {
         launch();
     }
 
+    public static Map<String, Ingredient> ingredientsReturn(){
+        return ingredients;
+    }
+
 }

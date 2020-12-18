@@ -32,7 +32,8 @@ public class choixCommandeController {
     ObservableList<String> listPizza = FXCollections.observableArrayList("Margherita", "Proscuitto", "Carbonara","FruttiDiMare");
     ObservableList<String> listDeco = FXCollections.observableArrayList("Cheesy", "Pan", "Aucune");
     ArrayList<Pizza> commande = new ArrayList<>();
-    Map<String, Ingredient> ingredients = new HashMap<>();
+    //Map<String, Ingredient> ingredients = new HashMap<>();
+    Map<String, Ingredient> ingredients = App.ingredientsReturn();
     String factory = choixFactoryController.factoryReturn();
 
     @FXML private ChoiceBox choixPizza;
@@ -61,6 +62,7 @@ public class choixCommandeController {
                 Decoration deco = new Pan(pizza);
             }
             commande.add(pizza);
+            System.out.println(commande);
         }
         else if (p == "Prosciutto") {
             Proscuitto pizza = new Proscuitto(ingredients);
