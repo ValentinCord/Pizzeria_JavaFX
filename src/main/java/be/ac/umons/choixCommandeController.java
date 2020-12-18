@@ -8,6 +8,8 @@ import be.ac.umons.pizzas.Carbonara;
 import be.ac.umons.pizzas.FruttiDiMare;
 import be.ac.umons.pizzas.Margherita;
 import be.ac.umons.pizzas.Proscuitto;
+import be.ac.umons.state.Context;
+import be.ac.umons.state.Panne;
 import be.ac.umons.util.ColorPrint;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,27 +27,36 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 
 public class choixCommandeController {
 
+    //ChoiceBox
     ObservableList<String> listPizza = FXCollections.observableArrayList("Margherita", "Proscuitto", "Carbonara","FruttiDiMare");
     ObservableList<String> listDeco = FXCollections.observableArrayList("Cheesy", "Pan", "Aucune");
+    //ListView
     ObservableList<Pizza> commande = FXCollections.observableArrayList();
-    //Map<String, Ingredient> ingredients = new HashMap<>();
+    //Recuperation des ingredients et de la factory
     Map<String, Ingredient> ingredients = App.ingredientsReturn();
     String factory = choixFactoryController.factoryReturn();
+    //Price
     BigDecimal totalPrice = BigDecimal.ZERO;
     BigDecimal price = BigDecimal.ZERO;
+    //State et Context
+    Context context = new Context();
+    Boolean panne = false;
+    Boolean manque = false;
+    Boolean fabrication = false;
 
+    //Variables JavaFX
     @FXML private ChoiceBox choixPizza;
     @FXML private ChoiceBox choixDeco;
     @FXML private ListView commandeView;
     @FXML private Label titre;
     @FXML private Label prix;
 
-
-
+    //Initialisation des objets JavaFX
     @FXML private void initialize(){
         choixPizza.setValue("Margherita");
         choixPizza.setItems(listPizza);
@@ -53,12 +64,17 @@ public class choixCommandeController {
         choixDeco.setItems(listDeco);
         titre.setText("Bienvenue chez "+factory);
         prix.setText("Prix totale : 0 euros");
-        //commandeView.getItems().addAll(commande.toString());
     }
 
     @FXML protected void handleAjouter (ActionEvent event) throws IOException {
+        //Get de la pizza et de la decoration choisie
         String p = (String) choixPizza.getSelectionModel().getSelectedItem();
         String d = (String) choixDeco.getSelectionModel().getSelectedItem();
+
+        //Creation de la pizza + deco
+        //Ajout de la pizza a la commande
+        //Calcul de son prix
+        //Ajout de la pizza a la listView
         if (p == "Margherita"){
             Margherita pizza = new Margherita(ingredients);
             if(d == "Cheesy"){
@@ -108,12 +124,22 @@ public class choixCommandeController {
             price = pizza.getPrice();
             commandeView.setItems(commande);
         }
+
+        //Calcul du prix total + affichage
         totalPrice = totalPrice.add(price);
-        System.out.println(totalPrice);
         prix.setText("Prix totale : "+ totalPrice +" euros");
     }
 
     @FXML protected void handleCommander (ActionEvent event) throws IOException {
+        //Genere un integer de 0 a 100
+        int random = (int)(Math.random()*100);
+        if (random <10){
+            panne = true;
+            //ca marche po :(
+            //context.setState(Panne panne);
+            // aller modif la fonction current state qui dira que la machine est en panne
+        }
+
         /*
         1 si on est en panne (soit de facon random soit tout les X pizza) -> PANNE
 

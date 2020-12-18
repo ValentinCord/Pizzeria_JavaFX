@@ -29,7 +29,7 @@ public class App extends Application {
         this.stage.setTitle("Pizzeria");
 
         try{
-            scene = new Scene(loadFXML("choixFactory"), 640, 480);
+            scene = new Scene(loadFXML("choixFactory"), 805, 500);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {

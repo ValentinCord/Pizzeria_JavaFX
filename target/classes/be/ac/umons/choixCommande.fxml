@@ -4,25 +4,45 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="813.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.choixCommandeController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.choixCommandeController">
    <children>
+      <ImageView fitHeight="500.0" fitWidth="811.0" opacity="0.95" pickOnBounds="true" smooth="false">
+         <image>
+            <Image url="file:/D:/Polytech%20BAB3/Pizzeria/src/main/java/be/ac/umons/pizzaJPG.jpg" />
+         </image>
+      </ImageView>
       <ChoiceBox fx:id="choixPizza" layoutX="29.0" layoutY="114.0" prefWidth="150.0" />
-      <Label layoutX="75.0" layoutY="87.0" text="choix Pizza" />
-      <ChoiceBox fx:id="choixDeco" layoutX="29.0" layoutY="188.0" prefWidth="150.0" />
-      <Label layoutX="59.0" layoutY="162.0" text="choix Decoration" />
-      <Button fx:id="ajouter" layoutX="76.0" layoutY="229.0" mnemonicParsing="false" onAction="#handleAjouter" text="Ajouter" />
-      <ListView fx:id="commandeView" layoutX="240.0" layoutY="87.0" prefHeight="344.0" prefWidth="541.0" />
-      <Label layoutX="480.0" layoutY="62.0" text="Commande" />
-      <Button fx:id="commander" layoutX="592.0" layoutY="472.0" mnemonicParsing="false" onAction="#handleCommander" text="Commander" />
-      <Button fx:id="retour" layoutX="29.0" layoutY="472.0" mnemonicParsing="false" onAction="#handleRetour" text="retour" />
-      <Label fx:id="titre" layoutX="217.0" layoutY="21.0" text="Label" textFill="#060606">
+      <Label layoutX="74.0" layoutY="97.0" text="choix Pizza" textFill="#fdfdfd" />
+      <ChoiceBox fx:id="choixDeco" layoutX="29.0" layoutY="166.0" prefWidth="150.0" />
+      <Label layoutX="58.0" layoutY="149.0" text="choix Decoration" textFill="WHITE" />
+      <Button fx:id="ajouter" layoutX="68.0" layoutY="212.0" mnemonicParsing="false" onAction="#handleAjouter" prefHeight="38.0" prefWidth="69.0" text="Ajouter">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <ListView fx:id="commandeView" layoutX="240.0" layoutY="87.0" opacity="0.83" prefHeight="344.0" prefWidth="531.0" />
+      <Label layoutX="480.0" layoutY="62.0" text="Commande" textFill="WHITE" />
+      <Button fx:id="commander" layoutX="511.0" layoutY="438.0" mnemonicParsing="false" onAction="#handleCommander" prefHeight="38.0" prefWidth="89.0" text="Commander">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="retour" layoutX="24.0" layoutY="437.0" mnemonicParsing="false" onAction="#handleRetour" prefHeight="38.0" prefWidth="69.0" text="retour">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Label fx:id="titre" layoutX="352.0" layoutY="15.0" text="Label" textFill="WHITE">
          <font>
             <Font size="26.0" />
          </font></Label>
-      <Label fx:id="prix" layoutX="355.0" layoutY="476.0" text="Label" />
-      <Button fx:id="mainteance" layoutX="703.0" layoutY="21.0" mnemonicParsing="false" text="Mainteance" />
+      <Label fx:id="prix" layoutX="633.0" layoutY="448.0" text="Label" textFill="WHITE" />
+      <Button fx:id="mainteance" layoutX="661.0" layoutY="24.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="89.0" text="Mainteance">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </Pane>
