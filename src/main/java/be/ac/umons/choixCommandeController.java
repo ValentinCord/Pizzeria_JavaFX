@@ -31,8 +31,7 @@ public class choixCommandeController {
 
     ObservableList<String> listPizza = FXCollections.observableArrayList("Margherita", "Proscuitto", "Carbonara","FruttiDiMare");
     ObservableList<String> listDeco = FXCollections.observableArrayList("Cheesy", "Pan", "Aucune");
-    ObservableList<String> listCommande = FXCollections.observableArrayList();
-    ArrayList<Pizza> commande = new ArrayList<>();
+    ObservableList<Pizza> commande = FXCollections.observableArrayList();
     //Map<String, Ingredient> ingredients = new HashMap<>();
     Map<String, Ingredient> ingredients = App.ingredientsReturn();
     String factory = choixFactoryController.factoryReturn();
@@ -64,11 +63,9 @@ public class choixCommandeController {
             else if (d == "Pan"){
                 Decoration deco = new Pan(pizza);
             }
-            listCommande.add(pizza.getName());
-            System.out.println(listCommande);
             commande.add(pizza);
             System.out.println(commande);
-            commandeView.setItems(listCommande);
+            commandeView.setItems(commande);
         }
         else if (p == "Proscuitto") {
             Proscuitto pizza = new Proscuitto(ingredients);
@@ -78,11 +75,9 @@ public class choixCommandeController {
             else if (d == "Pan"){
                 Decoration deco = new Pan(pizza);
             }
-            listCommande.add(pizza.getName());
-            System.out.println(listCommande);
             commande.add(pizza);
             System.out.println(commande);
-            commandeView.setItems(listCommande);
+            commandeView.setItems(commande);
         }
         else if (p == "Carbonara") {
             Carbonara pizza = new Carbonara(ingredients);
@@ -92,11 +87,9 @@ public class choixCommandeController {
             else if (d == "Pan"){
                 Decoration deco = new Pan(pizza);
             }
-            listCommande.add(pizza.getName());
-            System.out.println(listCommande);
             commande.add(pizza);
             System.out.println(commande);
-            commandeView.setItems(listCommande);
+            commandeView.setItems(commande);
         }
         else if (p == "FruttiDiMare") {
             FruttiDiMare pizza = new FruttiDiMare(ingredients);
@@ -106,11 +99,9 @@ public class choixCommandeController {
             else if (d == "Pan"){
                 Decoration deco = new Pan(pizza);
             }
-            listCommande.add(pizza.getName());
-            System.out.println(listCommande);
             commande.add(pizza);
             System.out.println(commande);
-            commandeView.setItems(listCommande);
+            commandeView.setItems(commande);
         }
     }
 
