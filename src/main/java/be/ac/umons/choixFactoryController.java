@@ -2,6 +2,10 @@ package be.ac.umons;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+
 import java.io.IOException;
 
 public class choixFactoryController {

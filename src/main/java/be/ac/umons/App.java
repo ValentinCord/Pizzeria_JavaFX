@@ -7,13 +7,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Border;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,9 +47,9 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        // mettre dans main dans une fonction /!\ faire une methode static pour return la map dans la classe controller (voir factoryReturn)
+
     try {
-        DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:8889/tp6_db_java", "root", "root");
+        DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:3306/tp6_db_java", "root", "");
 
         ResultSet rs = db.querySelect("SELECT * FROM ingredients");
         while (rs.next()) {
@@ -77,6 +75,10 @@ public class App extends Application {
     }
 
     public static Map<String, Ingredient> ingredientsReturn(){
+        return ingredients;
+    }
+
+    public static Map<String, Ingredient> returnIngredients (){
         return ingredients;
     }
 

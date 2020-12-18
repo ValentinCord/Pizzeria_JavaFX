@@ -35,11 +35,14 @@ public class choixCommandeController {
     //Map<String, Ingredient> ingredients = new HashMap<>();
     Map<String, Ingredient> ingredients = App.ingredientsReturn();
     String factory = choixFactoryController.factoryReturn();
+    BigDecimal totalPrice = BigDecimal.ZERO;
+    BigDecimal price = BigDecimal.ZERO;
 
     @FXML private ChoiceBox choixPizza;
     @FXML private ChoiceBox choixDeco;
     @FXML private ListView commandeView;
     @FXML private Label titre;
+    @FXML private Label prix;
 
 
 
@@ -49,6 +52,7 @@ public class choixCommandeController {
         choixDeco.setValue("Aucune");
         choixDeco.setItems(listDeco);
         titre.setText("Bienvenue chez "+factory);
+        prix.setText("Prix totale : 0 euros");
         //commandeView.getItems().addAll(commande.toString());
     }
 
@@ -64,8 +68,9 @@ public class choixCommandeController {
                 Decoration deco = new Pan(pizza);
             }
             commande.add(pizza);
-            System.out.println(commande);
-            commandeView.setItems(commande);
+            price = pizza.getPrice();
+            commandeView.getItems().add(pizza.toString());
+            //commandeView.setItems(commande);
         }
         else if (p == "Proscuitto") {
             Proscuitto pizza = new Proscuitto(ingredients);
@@ -76,7 +81,7 @@ public class choixCommandeController {
                 Decoration deco = new Pan(pizza);
             }
             commande.add(pizza);
-            System.out.println(commande);
+            price = pizza.getPrice();
             commandeView.setItems(commande);
         }
         else if (p == "Carbonara") {
@@ -88,7 +93,7 @@ public class choixCommandeController {
                 Decoration deco = new Pan(pizza);
             }
             commande.add(pizza);
-            System.out.println(commande);
+            price = pizza.getPrice();
             commandeView.setItems(commande);
         }
         else if (p == "FruttiDiMare") {
@@ -100,9 +105,12 @@ public class choixCommandeController {
                 Decoration deco = new Pan(pizza);
             }
             commande.add(pizza);
-            System.out.println(commande);
+            price = pizza.getPrice();
             commandeView.setItems(commande);
         }
+        totalPrice = totalPrice.add(price);
+        System.out.println(totalPrice);
+        prix.setText("Prix totale : "+ totalPrice +" euros");
     }
 
     @FXML protected void handleCommander (ActionEvent event) throws IOException {
@@ -116,7 +124,8 @@ public class choixCommandeController {
         3 Sinon -> FABRICATION => 2 Thread qui se partage les pizza (60s/pizza)
         -> context.setState(Fabrication)
         context.currentState()
-        */
+         */
+
     }
 
     @FXML protected void handleRetour (ActionEvent event) throws IOException{

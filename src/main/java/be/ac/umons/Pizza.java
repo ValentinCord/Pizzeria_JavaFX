@@ -31,10 +31,11 @@ public class Pizza extends Ingredient implements PizzaComponent{
 
     @Override
     public String toString() {
-        return "Pizza{" +
+        /*return "Pizza{" +
                 "name='" + name + '\'' +
                 ", price=" + price +
                 ", listIngredients=" + listIngredients +
-                '}';
+                '}';*/
+        return name + ", prix : "+price+", ingrédients : "+listIngredients;
     }
 }
