@@ -13,7 +13,7 @@
       <ChoiceBox fx:id="choixDeco" layoutX="73.0" layoutY="229.0" prefWidth="150.0" />
       <Label layoutX="104.0" layoutY="200.0" text="choix Decoration" />
       <Button fx:id="ajouter" layoutX="121.0" layoutY="302.0" mnemonicParsing="false" onAction="#handleAjouter" text="Ajouter" />
-      <ListView fx:id="listCommande" layoutX="334.0" layoutY="87.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView fx:id="commandeView" layoutX="334.0" layoutY="87.0" prefHeight="200.0" prefWidth="200.0" />
       <Label layoutX="397.0" layoutY="64.0" text="Commande" />
       <Button fx:id="commander" layoutX="402.0" layoutY="302.0" mnemonicParsing="false" onAction="#handleCommander" text="Commander" />
       <Button fx:id="retour" layoutX="14.0" layoutY="353.0" mnemonicParsing="false" onAction="#handleRetour" text="retour" />

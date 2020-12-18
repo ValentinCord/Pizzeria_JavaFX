@@ -31,6 +31,7 @@ public class choixCommandeController {
 
     ObservableList<String> listPizza = FXCollections.observableArrayList("Margherita", "Proscuitto", "Carbonara","FruttiDiMare");
     ObservableList<String> listDeco = FXCollections.observableArrayList("Cheesy", "Pan", "Aucune");
+    ObservableList<String> listCommande = FXCollections.observableArrayList();
     ArrayList<Pizza> commande = new ArrayList<>();
     //Map<String, Ingredient> ingredients = new HashMap<>();
     Map<String, Ingredient> ingredients = App.ingredientsReturn();
@@ -40,6 +41,8 @@ public class choixCommandeController {
     @FXML private ChoiceBox choixDeco;
     @FXML private ListView commandeView;
     @FXML private Label titre;
+
+
 
     @FXML private void initialize(){
         choixPizza.setValue("Margherita");
@@ -61,10 +64,13 @@ public class choixCommandeController {
             else if (d == "Pan"){
                 Decoration deco = new Pan(pizza);
             }
+            listCommande.add(pizza.getName());
+            System.out.println(listCommande);
             commande.add(pizza);
             System.out.println(commande);
+            commandeView.setItems(listCommande);
         }
-        else if (p == "Prosciutto") {
+        else if (p == "Proscuitto") {
             Proscuitto pizza = new Proscuitto(ingredients);
             if(d == "Cheesy"){
                 Decoration deco = new Cheesy(pizza);
@@ -72,7 +78,11 @@ public class choixCommandeController {
             else if (d == "Pan"){
                 Decoration deco = new Pan(pizza);
             }
+            listCommande.add(pizza.getName());
+            System.out.println(listCommande);
             commande.add(pizza);
+            System.out.println(commande);
+            commandeView.setItems(listCommande);
         }
         else if (p == "Carbonara") {
             Carbonara pizza = new Carbonara(ingredients);
@@ -82,7 +92,11 @@ public class choixCommandeController {
             else if (d == "Pan"){
                 Decoration deco = new Pan(pizza);
             }
+            listCommande.add(pizza.getName());
+            System.out.println(listCommande);
             commande.add(pizza);
+            System.out.println(commande);
+            commandeView.setItems(listCommande);
         }
         else if (p == "FruttiDiMare") {
             FruttiDiMare pizza = new FruttiDiMare(ingredients);
@@ -92,10 +106,12 @@ public class choixCommandeController {
             else if (d == "Pan"){
                 Decoration deco = new Pan(pizza);
             }
+            listCommande.add(pizza.getName());
+            System.out.println(listCommande);
             commande.add(pizza);
+            System.out.println(commande);
+            commandeView.setItems(listCommande);
         }
-
-        System.out.println(commande);
     }
 
     @FXML protected void handleCommander (ActionEvent event) throws IOException {
