@@ -51,7 +51,8 @@ public class App extends Application {
     public static void main(String[] args) {
         // mettre dans main dans une fonction /!\ faire une methode static pour return la map dans la classe controller (voir factoryReturn)
     try {
-        DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:3306/tp6_db_java", "root", "");
+        DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:8889/tp6_db_java", "root", "root");
+
         ResultSet rs = db.querySelect("SELECT * FROM ingredients");
         while (rs.next()) {
             Ingredient ingredient = new Ingredient();
