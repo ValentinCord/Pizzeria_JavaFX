@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public interface State {
-    void currentState(Context context);
 
-    void reapprovisionner(ArrayList<String> emptyIngredient, Map<String, Ingredient> ingredients);
+    Boolean reparer(Boolean panne);
 
-    void fabriquerCommande(ObservableList<Pizza> commande);
+    Map<String, Ingredient> reapprovisionner(ObservableList<String> emptyIngredient, Map<String, Ingredient> ingredients);
+
+    void fabriquerCommande(ObservableList<Pizza> commande) throws InterruptedException;
 }

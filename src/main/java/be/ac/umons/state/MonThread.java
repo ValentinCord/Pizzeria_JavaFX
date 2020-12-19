@@ -1,7 +1,11 @@
-package be.ac.umons;
+package be.ac.umons.state;
 
+import be.ac.umons.Pizza;
 import be.ac.umons.state.Fabrication;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 
 public class MonThread implements Runnable{
 
@@ -17,9 +21,8 @@ public class MonThread implements Runnable{
     @Override
     public void run() {
         try {
-            System.out.println("je vais travailler");
             t.sleep(timer);
-            System.out.println(fabPizza + "donne");
+            System.out.println(fabPizza + "finie");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -20,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -42,28 +43,28 @@ public class choixCommandeController {
     //Recuperation des ingredients et de la factory
     Map<String, Ingredient> ingredients = App.ingredientsReturn();
     String factory = choixFactoryController.factoryReturn();
-
     FabriqueAbstraite fabrique;
-
     //Price
     BigDecimal totalPrice = BigDecimal.ZERO;
     BigDecimal price = BigDecimal.ZERO;
-
     //State et Context
     Context context = new Context();
+    State attenteState = new Attente();
     State panneState = new Panne();
     State manqueState = new Manque();
     State fabricationState = new Fabrication();
     Boolean panne = false;
-    Boolean manque = false;
-    Boolean fabrication = false;
+    ObservableList<String> EmptyIngredient = FXCollections.observableArrayList();
+
 
     //Variables JavaFX
-    @FXML private ChoiceBox choixPizza;
-    @FXML private ChoiceBox choixDeco;
-    @FXML private ListView commandeView;
-    @FXML private Label titre;
-    @FXML private Label prix;
+    @FXML private ChoiceBox choixPizza = new ChoiceBox();
+    @FXML private ChoiceBox choixDeco = new ChoiceBox();
+    @FXML private ListView commandeView = new ListView();
+    @FXML private ListView fabriqueView = new ListView();
+    @FXML private ListView manqueView = new ListView();
+    @FXML private Label titre = new Label();
+    @FXML private Label prix = new Label();
 
     //Initialisation des objets JavaFX
     @FXML private void initialize(){
@@ -103,8 +104,7 @@ public class choixCommandeController {
             }
             commande.add(pizza);
             price = pizza.getPrice();
-            commandeView.getItems().add(pizza.toString());
-            //commandeView.setItems(commande);
+            commandeView.setItems(commande);
         }
         else if (p == "Proscuitto") {
             ChoixPizza pizzaLocation = fabrique.createPizza();
@@ -154,57 +154,54 @@ public class choixCommandeController {
         prix.setText("Prix totale : "+ totalPrice +" euros");
     }
 
-    @FXML protected void handleCommander (ActionEvent event) throws IOException {
-        //Genere un integer de 0 a 100
+    @FXML protected void handleCommander (ActionEvent event) throws IOException, InterruptedException {
+        //Check si on est en panne
         int random = (int)(Math.random()*100);
-        if (random <10 || panne== true){
-            panne = true;
-            //ca marche po :(
-            context.setState(panneState);
-            context.currentState();
-
-            // aller modif la fonction current state qui dira que la machine est en panne
-        }
-
-
-        //1 si on est en panne (soit de facon random soit tout les X pizza) -> PANNE
-
-        //Map<Ingredient, Integer> stock = new HashMap<>();
-        //ingredients.forEach((k,v) -> stock.put(v,0));
-        //commande.forEach(p -> p.getListIngredient().forEach(i -> stock.put(i, stock.get(i)+1)));
-
-        ArrayList<String> EmptyIngredient = new ArrayList<>();
-
+        //Check si il manque des ingredient
         for(String key: ingredients.keySet()){
             if (ingredients.get(key).getStock()< 0){
                 EmptyIngredient.add(ingredients.get(key).getName());
                 System.out.println(ingredients.get(key)+" "+ingredients.get(key).getStock());
             }
         }
-        System.out.println(EmptyIngredient);
 
-        if(!EmptyIngredient.isEmpty()){
-            context.setState(manqueState);
-            context.reapprovisioner(EmptyIngredient, ingredients);
-
-        }else {
-            context.setState(fabricationState);
-            context.fabriquerCommande(commande);
-
+        //1ere condition pour aller dans l'etat "panne"
+        if (random <0 || panne== true){
+            App.setRoot("reparation");
+            panne = true;
+            context.setState(panneState);
         }
 
+        //2eme conditions pour aller dans l'etat "manque"
+        else if(!EmptyIngredient.isEmpty()){
+            App.setRoot("manque");
+            context.setState(manqueState);
+            manqueView.setItems(EmptyIngredient);
+        }
 
+        //3eme conditions pour aller dans l'etat "fabrication"
+        else {
+            App.setRoot("fabrication");
+            fabriqueView.setItems(commande); //l affiche bug mais jsp pk
+            context.setState(fabricationState);
+            context.fabriquerCommande(commande);
+            context.setState(attenteState);
+            commande.clear();
+            App.setRoot("choixCommande");
+        }
+    }
 
+    @FXML protected void handleReparation (ActionEvent event) throws IOException{
+        panne = context.reparer(panne);
+        App.setRoot("choixCommande");
+        commandeView.setItems(commande);
+    }
 
-        /*
-        2 si il manque des ingrédients -> MANQUE :
-            somme(commande -> chaque Pizza(sauce,tomate,fromage) -> chaque ingredient) <<<<<<<< Map = ingredients
-            solution = Map(String,Quantite)->Quantite++ a la cle String
-        3 Sinon -> FABRICATION => 2 Thread qui se partage les pizza (60s/pizza)
-        -> context.setState(Fabrication)
-        context.currentState()
-         */
-
+    @FXML protected void handleAppro (ActionEvent event) throws IOException{
+        ingredients = context.reapprovisioner(EmptyIngredient, ingredients);
+        System.out.println();
+        App.setRoot("choixCommande");
+        commandeView.setItems(commande);
     }
 
     @FXML protected void handleRetour (ActionEvent event) throws IOException{

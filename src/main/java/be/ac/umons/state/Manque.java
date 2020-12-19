@@ -10,24 +10,17 @@ import java.util.Map;
 public class Manque implements State {
 
     @Override
-    public void currentState(Context context) {
-        System.out.println("Manque");
-
-        context.setState(new Attente());
+    public Boolean reparer(Boolean panne) {
+        return panne;
     }
 
     @Override
-    public void reapprovisionner(ArrayList<String> emptyIngredient, Map<String, Ingredient> ingredients) {
+    public Map<String, Ingredient> reapprovisionner(ObservableList<String> emptyIngredient, Map<String, Ingredient> ingredients) {
 
         for(String item:emptyIngredient){
-            System.out.println(item);
-            System.out.println(ingredients);
-            System.out.println(ingredients.get(item));
             ingredients.get(item).setStock(10);
-
-            System.out.println("1  "+ingredients.get(item).getStock());
         }
-
+        return ingredients;
     }
 
     @Override

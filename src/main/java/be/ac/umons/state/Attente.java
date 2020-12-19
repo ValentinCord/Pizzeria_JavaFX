@@ -13,18 +13,15 @@ public class Attente implements State {
         System.out.println("Attente");
     }
 
+
     @Override
-    public void currentState(Context context) {
-        context.setState(new Panne());
-        context.setState(new Manque());
-
-        context.setState(new Fabrication());
-
+    public Boolean reparer(Boolean panne) {
+        return panne;
     }
 
     @Override
-    public void reapprovisionner(ArrayList<String> emptyIngredient, Map<String, Ingredient> ingredients) {
-
+    public Map<String, Ingredient> reapprovisionner(ObservableList<String> emptyIngredient, Map<String, Ingredient> ingredients) {
+        return ingredients;
     }
 
     @Override

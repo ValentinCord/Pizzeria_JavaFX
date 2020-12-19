@@ -9,22 +9,19 @@ import java.util.Map;
 
 public class Panne implements State {
 
+
     @Override
-    public void currentState(Context context) {
-        System.out.println("Panne");
-
-        context.setState(new Attente());
-
+    public Boolean reparer(Boolean panne) {
+        return !panne;
     }
 
     @Override
-    public void reapprovisionner(ArrayList<String> emptyIngredient, Map<String, Ingredient> ingredients) {
-
+    public Map<String, Ingredient> reapprovisionner(ObservableList<String> emptyIngredient, Map<String, Ingredient> ingredients) {
+        return ingredients;
     }
 
     @Override
     public void fabriquerCommande(ObservableList<Pizza> commande) {
-
     }
 
 
