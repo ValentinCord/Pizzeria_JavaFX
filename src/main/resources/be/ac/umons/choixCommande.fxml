@@ -11,9 +11,9 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.choixCommandeController">
    <children>
-      <ImageView fitHeight="500.0" fitWidth="811.0" opacity="0.95" pickOnBounds="true" smooth="false">
+      <ImageView fitHeight="500.0" fitWidth="805.0" opacity="0.95" pickOnBounds="true" smooth="false">
          <image>
-            <Image url="file:/Users/tanguyvans/IdeaProjects/Pizzeria_JavaFX/src/main/java/be/ac/umons/pizzaJPG.jpg" />
+            <Image url="file:/D:/Polytech%20BAB3/Pizzeria/src/main/java/be/ac/umons/pizzaJPG.jpg" />
          </image>
       </ImageView>
       <ChoiceBox fx:id="choixPizza" layoutX="29.0" layoutY="114.0" prefWidth="150.0" />
@@ -24,7 +24,7 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <ListView fx:id="commandeView" layoutX="240.0" layoutY="87.0" opacity="0.83" prefHeight="344.0" prefWidth="531.0" />
+      <ListView fx:id="commandeView" layoutX="240.0" layoutY="87.0" opacity="0.90" prefHeight="279.0" prefWidth="531.0" />
       <Label layoutX="480.0" layoutY="62.0" text="Commande" textFill="WHITE" />
       <Button fx:id="commander" layoutX="511.0" layoutY="438.0" mnemonicParsing="false" onAction="#handleCommander" prefHeight="38.0" prefWidth="89.0" text="Commander">
          <font>
@@ -44,5 +44,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
+      <Button fx:id="approvisionner" layoutX="192.0" layoutY="436.0" mnemonicParsing="false" onAction="#handleAppro" text="Approvisionner" />
+      <Button fx:id="reparation" layoutX="324.0" layoutY="436.0" mnemonicParsing="false" onAction="#handleReparation" text="Réparer" />
    </children>
 </Pane>

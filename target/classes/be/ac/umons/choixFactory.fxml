@@ -4,28 +4,29 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.choixFactoryController">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0">
+      <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <ImageView disable="true" fitHeight="527.0" fitWidth="850.0" layoutX="-39.0" layoutY="-25.0" opacity="0.7" pickOnBounds="true" smooth="false">
+            <ImageView disable="true" fitHeight="500.0" fitWidth="805.0" opacity="0.95" pickOnBounds="true" smooth="false">
                <image>
                   <Image url="file:/D:/Polytech%20BAB3/Pizzeria/src/main/java/be/ac/umons/pizzaJPG.jpg" />
                </image>
             </ImageView>
-            <Button fx:id="choixPizzaHut" layoutX="118.0" layoutY="174.0" mnemonicParsing="false" onAction="#handleChoixPizzaHut" prefHeight="55.0" prefWidth="150.0" text="PizzaHut">
+            <Button fx:id="choixDominos" layoutX="488.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleChoixDominos" prefHeight="55.0" prefWidth="150.0" text="Domino's">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Button>
-            <Button fx:id="choixDominos" layoutX="490.0" layoutY="174.0" mnemonicParsing="false" onAction="#handleChoixDominos" prefHeight="55.0" prefWidth="150.0" text="Domino's">
+            <Button fx:id="choixPizzaHut" layoutX="174.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleChoixPizzaHut" prefHeight="55.0" prefWidth="150.0" text="PizzaHut">
                <font>
                   <Font name="System Bold" size="25.0" />
-               </font></Button>
+               </font>
+            </Button>
          </children>
-    </AnchorPane>
+      </Pane>
   </items>
 </SplitPane>
