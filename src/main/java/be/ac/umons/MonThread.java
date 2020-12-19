@@ -1,39 +1,27 @@
 package be.ac.umons;
 
+import be.ac.umons.state.Fabrication;
 import javafx.collections.ObservableList;
 
 public class MonThread implements Runnable{
 
-    ObservableList<Pizza> commande;
     int timer;
     Thread t;
     Pizza fabPizza;
 
-
-    public MonThread(ObservableList<Pizza> commande, int timer) {
-        this.commande = commande;
+    public MonThread(Pizza fabPizza,int timer) {
         this.timer = timer;
+        this.fabPizza = fabPizza;
     }
 
     @Override
     public void run() {
-        /*
-        System.out.println("Preparation"+ commande.get(i) + ":");
         try {
-            t1.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Prepartion terminee");
-        */
-        try {
-            fabPizza = commande.get(0);
-            commande.remove(0);
+            System.out.println("je vais travailler");
             t.sleep(timer);
-            System.out.println(fabPizza+ "donne");
+            System.out.println(fabPizza + "donne");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 }
