@@ -54,7 +54,7 @@ public class choixCommandeController {
     State attenteState = new Attente();
     State panneState = new Panne();
     State manqueState = new Manque();
-    State fabricationState = new Fabrication();    Boolean panne = false;
+    State fabricationState = new Fabrication();
     ObservableList<String> EmptyIngredient = FXCollections.observableArrayList();
 
 
@@ -65,6 +65,7 @@ public class choixCommandeController {
     @FXML private Label titre = new Label();
     @FXML private Label prix = new Label();
     @FXML private Button approvisionner = new Button();
+    @FXML private Button reparation = new Button();
 
     //Initialisation des objets JavaFX
     @FXML private void initialize(){
@@ -83,6 +84,7 @@ public class choixCommandeController {
         prix.setText("Prix totale : 0 euros");
         //Bouton invisible
         approvisionner.setVisible(false);
+        reparation.setVisible(false);
     }
 
     @FXML protected void handleAjouter (ActionEvent event) throws IOException {
@@ -165,8 +167,8 @@ public class choixCommandeController {
         }
 
         //1ere condition pour aller dans l'etat "panne"
-        if (random <0 || panne== true){
-
+        if (random < 100){
+            context.setState(panneState);
         }
 
         //2eme conditions pour aller dans l'etat "manque"
@@ -186,14 +188,16 @@ public class choixCommandeController {
     }
 
     @FXML protected void handleReparation (ActionEvent event) throws IOException{
-        panne = true;
-        context.setState(panneState);
-        panne = context.reparer(panne);
+        context.setState(attenteState);
     }
 
     @FXML protected void handleAppro (ActionEvent event) throws IOException{
         ingredients = context.reapprovisioner(EmptyIngredient, ingredients);
+        for(String key: ingredients.keySet()){
+            System.out.println(ingredients.get(key)+" "+ingredients.get(key).getStock());
+        }
         context.setState(attenteState);
+        EmptyIngredient.clear();
         approvisionner.setVisible(false);
     }
 
