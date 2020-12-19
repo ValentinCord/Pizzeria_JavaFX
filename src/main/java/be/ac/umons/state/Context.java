@@ -1,5 +1,10 @@
 package be.ac.umons.state;
 
+import be.ac.umons.Ingredient;
+
+import java.util.ArrayList;
+import java.util.Map;
+
 public class Context {
     private State state;
 
@@ -10,8 +15,13 @@ public class Context {
         this.state = newState;
     }
 
-    public void currentState(Boolean panne, Boolean manque, Boolean fabrication){
-        state.currentState(this, panne, manque, fabrication);
+    public void currentState(){
+        state.currentState(this);
     }
 
+
+    public void reapprovisioner(ArrayList<String> emptyIngredient, Map<String, Ingredient> ingredients) {
+        System.out.println(emptyIngredient);
+        state.reapprovisionner(emptyIngredient, ingredients);
+    }
 }

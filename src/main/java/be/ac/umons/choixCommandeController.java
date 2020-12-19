@@ -4,12 +4,17 @@ import be.ac.umons.database.DBSingleton;
 import be.ac.umons.decorationPizza.Cheesy;
 import be.ac.umons.decorationPizza.Decoration;
 import be.ac.umons.decorationPizza.Pan;
+
+import be.ac.umons.abstractFactory.ChoixPizza;
+import be.ac.umons.abstractFactory.Dominos;
+import be.ac.umons.abstractFactory.FabriqueAbstraite;
+import be.ac.umons.abstractFactory.PizzaHut;
+
 import be.ac.umons.pizzas.Carbonara;
 import be.ac.umons.pizzas.FruttiDiMare;
 import be.ac.umons.pizzas.Margherita;
 import be.ac.umons.pizzas.Proscuitto;
-import be.ac.umons.state.Context;
-import be.ac.umons.state.Panne;
+import be.ac.umons.state.*;
 import be.ac.umons.util.ColorPrint;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,10 +29,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 
 public class choixCommandeController {
@@ -40,11 +42,18 @@ public class choixCommandeController {
     //Recuperation des ingredients et de la factory
     Map<String, Ingredient> ingredients = App.ingredientsReturn();
     String factory = choixFactoryController.factoryReturn();
+
+    FabriqueAbstraite fabrique;
+
     //Price
     BigDecimal totalPrice = BigDecimal.ZERO;
     BigDecimal price = BigDecimal.ZERO;
+
     //State et Context
     Context context = new Context();
+    State panneState = new Panne();
+    State manqueState = new Manque();
+    State fabricationState = new Fabrication();
     Boolean panne = false;
     Boolean manque = false;
     Boolean fabrication = false;
@@ -63,6 +72,13 @@ public class choixCommandeController {
         choixDeco.setValue("Aucune");
         choixDeco.setItems(listDeco);
         titre.setText("Bienvenue chez "+factory);
+
+        if(factory == "PizzaHut"){
+            fabrique = new PizzaHut();
+        }else if(factory == "Domino's") {
+            fabrique = new Dominos();
+        }
+
         prix.setText("Prix totale : 0 euros");
     }
 
@@ -76,7 +92,9 @@ public class choixCommandeController {
         //Calcul de son prix
         //Ajout de la pizza a la listView
         if (p == "Margherita"){
+            ChoixPizza pizzaLocation = fabrique.createPizza();
             Margherita pizza = new Margherita(ingredients);
+            pizzaLocation.type(pizza, ingredients);
             if(d == "Cheesy"){
                 Decoration deco = new Cheesy(pizza);
             }
@@ -89,7 +107,9 @@ public class choixCommandeController {
             //commandeView.setItems(commande);
         }
         else if (p == "Proscuitto") {
+            ChoixPizza pizzaLocation = fabrique.createPizza();
             Proscuitto pizza = new Proscuitto(ingredients);
+            pizzaLocation.type(pizza, ingredients);
             if(d == "Cheesy"){
                 Decoration deco = new Cheesy(pizza);
             }
@@ -101,7 +121,9 @@ public class choixCommandeController {
             commandeView.setItems(commande);
         }
         else if (p == "Carbonara") {
+            ChoixPizza pizzaLocation = fabrique.createPizza();
             Carbonara pizza = new Carbonara(ingredients);
+            pizzaLocation.type(pizza, ingredients);
             if(d == "Cheesy"){
                 Decoration deco = new Cheesy(pizza);
             }
@@ -113,7 +135,9 @@ public class choixCommandeController {
             commandeView.setItems(commande);
         }
         else if (p == "FruttiDiMare") {
+            ChoixPizza pizzaLocation = fabrique.createPizza();
             FruttiDiMare pizza = new FruttiDiMare(ingredients);
+            pizzaLocation.type(pizza, ingredients);
             if(d == "Cheesy"){
                 Decoration deco = new Cheesy(pizza);
             }
@@ -133,20 +157,44 @@ public class choixCommandeController {
     @FXML protected void handleCommander (ActionEvent event) throws IOException {
         //Genere un integer de 0 a 100
         int random = (int)(Math.random()*100);
-        if (random <10){
+        if (random <10 || panne== true){
             panne = true;
             //ca marche po :(
-            //context.setState(Panne panne);
+            context.setState(panneState);
+            context.currentState();
+
             // aller modif la fonction current state qui dira que la machine est en panne
         }
 
-        /*
-        1 si on est en panne (soit de facon random soit tout les X pizza) -> PANNE
 
+        //1 si on est en panne (soit de facon random soit tout les X pizza) -> PANNE
+
+        //Map<Ingredient, Integer> stock = new HashMap<>();
+        //ingredients.forEach((k,v) -> stock.put(v,0));
+        //commande.forEach(p -> p.getListIngredient().forEach(i -> stock.put(i, stock.get(i)+1)));
+
+        ArrayList<String> EmptyIngredient = new ArrayList<>();
+
+        for(String key: ingredients.keySet()){
+            if (ingredients.get(key).getStock()< 0){
+                EmptyIngredient.add(ingredients.get(key).getName());
+                System.out.println(ingredients.get(key)+" "+ingredients.get(key).getStock());
+            }
+        }
+        System.out.println(EmptyIngredient);
+
+        if(EmptyIngredient!= null){
+            context.setState(manqueState);
+            context.reapprovisioner(EmptyIngredient, ingredients);
+        }
+
+
+
+
+        /*
         2 si il manque des ingrédients -> MANQUE :
             somme(commande -> chaque Pizza(sauce,tomate,fromage) -> chaque ingredient) <<<<<<<< Map = ingredients
             solution = Map(String,Quantite)->Quantite++ a la cle String
-
         3 Sinon -> FABRICATION => 2 Thread qui se partage les pizza (60s/pizza)
         -> context.setState(Fabrication)
         context.currentState()

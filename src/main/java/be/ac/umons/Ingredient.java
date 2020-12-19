@@ -39,11 +39,14 @@ public class Ingredient implements PizzaComponent {
     }
     @Override
     public String toString() {
-        /*return "Ingredient{" +
+        /*
+        return "Ingredient{" +
                 "name='" + name + '\'' +
                 ", price=" + price +
                 ", stock=" + stock +
-                '}';*/
+                '}';
+
+         */
         return name;
     }
     public void register(Observer obs){
