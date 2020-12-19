@@ -183,9 +183,14 @@ public class choixCommandeController {
         }
         System.out.println(EmptyIngredient);
 
-        if(EmptyIngredient!= null){
+        if(!EmptyIngredient.isEmpty()){
             context.setState(manqueState);
             context.reapprovisioner(EmptyIngredient, ingredients);
+
+        }else {
+            context.setState(fabricationState);
+            context.fabriquerCommande(commande);
+
         }
 
 

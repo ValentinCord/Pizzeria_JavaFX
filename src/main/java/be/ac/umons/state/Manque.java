@@ -1,6 +1,8 @@
 package be.ac.umons.state;
 
 import be.ac.umons.Ingredient;
+import be.ac.umons.Pizza;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -16,7 +18,6 @@ public class Manque implements State {
 
     @Override
     public void reapprovisionner(ArrayList<String> emptyIngredient, Map<String, Ingredient> ingredients) {
-        System.out.println(emptyIngredient);
 
         for(String item:emptyIngredient){
             System.out.println(item);
@@ -26,6 +27,11 @@ public class Manque implements State {
 
             System.out.println("1  "+ingredients.get(item).getStock());
         }
+
+    }
+
+    @Override
+    public void fabriquerCommande(ObservableList<Pizza> commande) {
 
     }
 

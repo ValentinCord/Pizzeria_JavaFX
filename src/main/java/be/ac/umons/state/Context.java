@@ -1,6 +1,8 @@
 package be.ac.umons.state;
 
 import be.ac.umons.Ingredient;
+import be.ac.umons.Pizza;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -21,7 +23,11 @@ public class Context {
 
 
     public void reapprovisioner(ArrayList<String> emptyIngredient, Map<String, Ingredient> ingredients) {
-        System.out.println(emptyIngredient);
         state.reapprovisionner(emptyIngredient, ingredients);
+    }
+
+    public void fabriquerCommande(ObservableList<Pizza> commande) {
+
+        state.fabriquerCommande(commande);
     }
 }

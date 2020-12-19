@@ -38,4 +38,5 @@ public class Pizza extends Ingredient implements PizzaComponent{
                 '}';*/
         return name + ", prix : "+price+", ingrédients : "+listIngredients;
     }
+
 }
