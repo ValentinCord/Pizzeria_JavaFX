@@ -15,6 +15,7 @@ import be.ac.umons.pizzas.FruttiDiMare;
 import be.ac.umons.pizzas.Margherita;
 import be.ac.umons.pizzas.Proscuitto;
 import be.ac.umons.state.*;
+import be.ac.umons.util.AnsiColor;
 import be.ac.umons.util.ColorPrint;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,7 +43,7 @@ public class choixCommandeController {
     //ListView
     ObservableList<Pizza> commande = FXCollections.observableArrayList();
     //Recuperation des ingredients et de la factory
-    Map<String, Ingredient> ingredients = App.ingredientsReturn();
+    Map<String, Ingredient> ingredients = new HashMap<>();
     String factory = choixFactoryController.factoryReturn();
     FabriqueAbstraite fabrique;
     //Price
@@ -85,6 +86,30 @@ public class choixCommandeController {
         //Bouton invisible
         approvisionner.setVisible(false);
         reparation.setVisible(false);
+
+        try {
+            DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:3306/tp6_db_java", "root", "");
+
+            ResultSet rs = db.querySelect("SELECT * FROM ingredients");
+            while (rs.next()) {
+                Ingredient ingredient = new Ingredient();
+                ingredient.setName(rs.getString("name"));
+                ingredient.setPrice(rs.getBigDecimal("price"));
+                ingredient.setStock(rs.getInt("stock"));
+                ingredients.put(ingredient.getName(), ingredient);
+                //ingredient.register(obs);
+                //obs.setSubject(ingredient);
+            }
+            rs.close();
+            //updateQueryDemo();
+        } catch (SQLException e) {
+            ColorPrint.printError("SQL ERROR : " + e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.print(AnsiColor.RED);
+            e.printStackTrace();
+            System.out.print(AnsiColor.RESET);
+        }
+        ingredients.forEach((k, v) -> System.out.println(k + " : " + v.getPrice() + " €, " + v.getStock() + " disponible(s) "));
     }
 
     @FXML protected void handleAjouter (ActionEvent event) throws IOException {
@@ -167,8 +192,9 @@ public class choixCommandeController {
         }
 
         //1ere condition pour aller dans l'etat "panne"
-        if (random < 100){
+        if (random < 0){
             context.setState(panneState);
+            reparation.setVisible(true);
         }
 
         //2eme conditions pour aller dans l'etat "manque"
@@ -189,6 +215,7 @@ public class choixCommandeController {
 
     @FXML protected void handleReparation (ActionEvent event) throws IOException{
         context.setState(attenteState);
+        reparation.setVisible(false);
     }
 
     @FXML protected void handleAppro (ActionEvent event) throws IOException{
