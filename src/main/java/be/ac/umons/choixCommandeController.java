@@ -167,8 +167,9 @@ public class choixCommandeController {
         }
 
         //1ere condition pour aller dans l'etat "panne"
-        if (random < 100){
+        if (random < 0){
             context.setState(panneState);
+            reparation.setVisible(true);
         }
 
         //2eme conditions pour aller dans l'etat "manque"
@@ -184,11 +185,13 @@ public class choixCommandeController {
             context.fabriquerCommande(commande);
             context.setState(attenteState);
             commande.clear();
+            App.setRoot("choixFactory");
         }
     }
 
     @FXML protected void handleReparation (ActionEvent event) throws IOException{
         context.setState(attenteState);
+        reparation.setVisible(false);
     }
 
     @FXML protected void handleAppro (ActionEvent event) throws IOException{

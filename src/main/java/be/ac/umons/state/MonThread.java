@@ -18,6 +18,12 @@ public class MonThread implements Runnable{
         this.fabPizza = fabPizza;
     }
 
+    public static void finirPeparation() throws InterruptedException {
+
+        Thread.sleep(15000);
+    }
+
+
     @Override
     public void run() {
         try {

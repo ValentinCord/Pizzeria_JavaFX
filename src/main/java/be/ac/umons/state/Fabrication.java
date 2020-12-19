@@ -31,16 +31,15 @@ public class Fabrication implements State{
         do {
             while (monThreadGroup.activeCount() < 2 && !commande.isEmpty()) {
                 Pizza fabPizza = commande.get(0);
-                MonThread e = new MonThread(fabPizza, 3000);
+                MonThread e = new MonThread(fabPizza, 10000);
                 Thread t = new Thread(monThreadGroup, e);
                 t.start();
                 commande.remove(0);
-                t.stop();
             }
 
         } while (!commande.isEmpty());
 
-        //Thread.sleep(50000);
+        MonThread.finirPeparation();
         System.out.println("Preparation terminée");
     }
 }
