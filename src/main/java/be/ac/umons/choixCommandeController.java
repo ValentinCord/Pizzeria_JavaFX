@@ -57,7 +57,7 @@ public class choixCommandeController {
     ObservableList<String> EmptyIngredient = FXCollections.observableArrayList();
 
 
-    //Variables JavaFX
+    //Variables JavaFX avec le meme ID que dans scene builder
     @FXML private ChoiceBox choixPizza = new ChoiceBox();
     @FXML private ChoiceBox choixDeco = new ChoiceBox();
     @FXML private ListView commandeView = new ListView();
@@ -73,13 +73,13 @@ public class choixCommandeController {
         choixDeco.setValue("Aucune");
         choixDeco.setItems(listDeco);
         titre.setText("Bienvenue chez "+factory);
-
+        //initialisation de la fabrique
         if(factory == "PizzaHut"){
             fabrique = new PizzaHut();
         }else if(factory == "Domino's") {
             fabrique = new Dominos();
         }
-
+        //Au départ le prix vaut 0 euros
         prix.setText("Prix totale : 0 euros");
     }
 
@@ -87,6 +87,7 @@ public class choixCommandeController {
         //Get de la pizza et de la decoration choisie
         String p = (String) choixPizza.getSelectionModel().getSelectedItem();
         String d = (String) choixDeco.getSelectionModel().getSelectedItem();
+        commandeView.setItems(commande);
 
         //Creation de la pizza + deco
         //Ajout de la pizza a la commande
@@ -104,7 +105,6 @@ public class choixCommandeController {
             }
             commande.add(pizza);
             price = pizza.getPrice();
-            commandeView.setItems(commande);
         }
         else if (p == "Proscuitto") {
             ChoixPizza pizzaLocation = fabrique.createPizza();
@@ -118,7 +118,6 @@ public class choixCommandeController {
             }
             commande.add(pizza);
             price = pizza.getPrice();
-            commandeView.setItems(commande);
         }
         else if (p == "Carbonara") {
             ChoixPizza pizzaLocation = fabrique.createPizza();
@@ -132,7 +131,6 @@ public class choixCommandeController {
             }
             commande.add(pizza);
             price = pizza.getPrice();
-            commandeView.setItems(commande);
         }
         else if (p == "FruttiDiMare") {
             ChoixPizza pizzaLocation = fabrique.createPizza();
@@ -146,7 +144,6 @@ public class choixCommandeController {
             }
             commande.add(pizza);
             price = pizza.getPrice();
-            commandeView.setItems(commande);
         }
 
         //Calcul du prix total + affichage
@@ -182,7 +179,7 @@ public class choixCommandeController {
         //3eme conditions pour aller dans l'etat "fabrication"
         else {
             App.setRoot("fabrication");
-            fabriqueView.setItems(commande); //l affiche bug mais jsp pk
+            fabriqueView.setItems(commande);
             context.setState(fabricationState);
             context.fabriquerCommande(commande);
             context.setState(attenteState);

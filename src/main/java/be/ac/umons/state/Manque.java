@@ -16,7 +16,6 @@ public class Manque implements State {
 
     @Override
     public Map<String, Ingredient> reapprovisionner(ObservableList<String> emptyIngredient, Map<String, Ingredient> ingredients) {
-
         for(String item:emptyIngredient){
             ingredients.get(item).setStock(10);
         }
