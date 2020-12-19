@@ -9,10 +9,9 @@ import java.util.Map;
 
 public class Attente implements State {
 
-    public Attente(){
-        System.out.println("Attente");
+    public Attente() {
+        System.out.println("Etat d'attente");
     }
-
 
     @Override
     public Boolean reparer(Boolean panne) {

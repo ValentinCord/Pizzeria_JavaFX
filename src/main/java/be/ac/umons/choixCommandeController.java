@@ -21,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -49,11 +50,11 @@ public class choixCommandeController {
     BigDecimal price = BigDecimal.ZERO;
     //State et Context
     Context context = new Context();
+    //State state;
     State attenteState = new Attente();
     State panneState = new Panne();
     State manqueState = new Manque();
-    State fabricationState = new Fabrication();
-    Boolean panne = false;
+    State fabricationState = new Fabrication();    Boolean panne = false;
     ObservableList<String> EmptyIngredient = FXCollections.observableArrayList();
 
 
@@ -61,10 +62,9 @@ public class choixCommandeController {
     @FXML private ChoiceBox choixPizza = new ChoiceBox();
     @FXML private ChoiceBox choixDeco = new ChoiceBox();
     @FXML private ListView commandeView = new ListView();
-    @FXML private ListView fabriqueView = new ListView();
-    @FXML private ListView manqueView = new ListView();
     @FXML private Label titre = new Label();
     @FXML private Label prix = new Label();
+    @FXML private Button approvisionner = new Button();
 
     //Initialisation des objets JavaFX
     @FXML private void initialize(){
@@ -81,6 +81,8 @@ public class choixCommandeController {
         }
         //Au départ le prix vaut 0 euros
         prix.setText("Prix totale : 0 euros");
+        //Bouton invisible
+        approvisionner.setVisible(false);
     }
 
     @FXML protected void handleAjouter (ActionEvent event) throws IOException {
@@ -164,41 +166,35 @@ public class choixCommandeController {
 
         //1ere condition pour aller dans l'etat "panne"
         if (random <0 || panne== true){
-            App.setRoot("reparation");
-            panne = true;
-            context.setState(panneState);
+
         }
 
         //2eme conditions pour aller dans l'etat "manque"
         else if(!EmptyIngredient.isEmpty()){
-            App.setRoot("manque");
             context.setState(manqueState);
-            manqueView.setItems(EmptyIngredient);
+            approvisionner.setVisible(true);
+
         }
 
         //3eme conditions pour aller dans l'etat "fabrication"
         else {
-            App.setRoot("fabrication");
-            fabriqueView.setItems(commande);
             context.setState(fabricationState);
             context.fabriquerCommande(commande);
             context.setState(attenteState);
             commande.clear();
-            App.setRoot("choixCommande");
         }
     }
 
     @FXML protected void handleReparation (ActionEvent event) throws IOException{
+        panne = true;
+        context.setState(panneState);
         panne = context.reparer(panne);
-        App.setRoot("choixCommande");
-        commandeView.setItems(commande);
     }
 
     @FXML protected void handleAppro (ActionEvent event) throws IOException{
         ingredients = context.reapprovisioner(EmptyIngredient, ingredients);
-        System.out.println();
-        App.setRoot("choixCommande");
-        commandeView.setItems(commande);
+        context.setState(attenteState);
+        approvisionner.setVisible(false);
     }
 
     @FXML protected void handleRetour (ActionEvent event) throws IOException{

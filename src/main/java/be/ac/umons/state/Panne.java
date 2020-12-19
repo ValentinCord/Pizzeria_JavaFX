@@ -9,6 +9,9 @@ import java.util.Map;
 
 public class Panne implements State {
 
+    public Panne() {
+        System.out.println("Etat de panen");
+    }
 
     @Override
     public Boolean reparer(Boolean panne) {

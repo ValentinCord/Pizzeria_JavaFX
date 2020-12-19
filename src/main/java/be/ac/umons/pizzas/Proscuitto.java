@@ -8,13 +8,15 @@ import java.util.Map;
 public class Proscuitto extends Pizza {
 
     public Proscuitto(Map<String, Ingredient> c) {
-
         setName("Proscuitto");
-
         addIngredient(c.get("Dough"));
+        c.get("Dough").setStock(c.get("Dough").getStock()-1);
         addIngredient(c.get("Tomato Sauce"));
+        c.get("Tomato Sauce").setStock(c.get("Tomato Sauce").getStock()-1);
         addIngredient(c.get("Cheese"));
+        c.get("Cheese").setStock(c.get("Cheese").getStock()-1);
         addIngredient(c.get("Ham"));
+        c.get("Ham").setStock(c.get("Ham").getStock()-1);
 
         BigDecimal price = getListIngredient()
                 .stream()
