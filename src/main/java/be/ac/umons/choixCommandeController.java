@@ -237,6 +237,7 @@ public class choixCommandeController {
         reparation.setVisible(false);
         engins.getUpdate();
         notice.setText("choisir une commande");
+
     }
 
     @FXML protected void handleAppro (ActionEvent event) throws IOException{
