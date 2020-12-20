@@ -48,29 +48,6 @@ public class App extends Application {
 
     public static void main(String[] args) {
 
-    try {
-        DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:8889/tp6_db_java", "root", "root");
-
-        ResultSet rs = db.querySelect("SELECT * FROM ingredients");
-        while (rs.next()) {
-            Ingredient ingredient = new Ingredient();
-            ingredient.setName(rs.getString("name"));
-            ingredient.setPrice(rs.getBigDecimal("price"));
-            ingredient.setStock(rs.getInt("stock"));
-            ingredients.put(ingredient.getName(), ingredient);
-            //ingredient.register(obs);
-            //obs.setSubject(ingredient);
-        }
-        rs.close();
-        //updateQueryDemo();
-    } catch (SQLException e) {
-        ColorPrint.printError("SQL ERROR : " + e.getMessage());
-    } catch (NullPointerException e) {
-        System.out.print(AnsiColor.RED);
-        e.printStackTrace();
-        System.out.print(AnsiColor.RESET);
-    }
-        ingredients.forEach((k, v) -> System.out.println(k + " : " + v.getPrice() + " €, " + v.getStock() + " disponible(s) "));
         launch();
     }
 
