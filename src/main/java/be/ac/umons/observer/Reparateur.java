@@ -1,13 +1,12 @@
-package be.ac.umons.Observer;
+package be.ac.umons.observer;
 
-public class Fournisseur implements TheObserver {
+public class Reparateur implements TheObserver{
 
-    private Observable reservoir;
-
+    private Observable engins;
 
     @Override
     public void update() {
-        System.out.println("Le fournisseur est informé");
+        System.out.println("Le réparateur est informé");
     }
 
     @Override
@@ -15,6 +14,6 @@ public class Fournisseur implements TheObserver {
         if(observable == null){
             throw new NullPointerException("The subject is null");
         }
-        this.reservoir = observable;
+        this.engins = observable;
     }
 }

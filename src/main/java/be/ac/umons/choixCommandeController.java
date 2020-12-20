@@ -1,7 +1,7 @@
 package be.ac.umons;
 
-import be.ac.umons.Observer.*;
-import be.ac.umons.Observer.Observable;
+import be.ac.umons.observer.*;
+import be.ac.umons.observer.Observable;
 import be.ac.umons.database.DBSingleton;
 import be.ac.umons.decorationPizza.Cheesy;
 import be.ac.umons.decorationPizza.Decoration;
@@ -23,11 +23,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -44,7 +41,7 @@ public class choixCommandeController {
     Observable reservoir = new ObservationResevoir();
     //Observer -> Pour la panne
     TheObserver reparateur = new Reparateur();
-    Observable engins = new ObservationResevoir();
+    Observable engins = new ObservationPanne();
     //ChoiceBox
     ObservableList<String> listPizza = FXCollections.observableArrayList("Margherita", "Proscuitto", "Carbonara","FruttiDiMare");
     ObservableList<String> listDeco = FXCollections.observableArrayList("Cheesy", "Pan", "Aucune");
@@ -75,6 +72,7 @@ public class choixCommandeController {
     @FXML private Label prix = new Label();
     @FXML private Button approvisionner = new Button();
     @FXML private Button reparation = new Button();
+    @FXML private TextArea notice = new TextArea();
 
     //Initialisation des objets JavaFX
     @FXML private void initialize(){
@@ -102,9 +100,11 @@ public class choixCommandeController {
         //Bouton invisible
         approvisionner.setVisible(false);
         reparation.setVisible(false);
+        //TextArea de notice
+         notice.setText("choisir une commande");
 
         try {
-            DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:8889/tp6_db_java", "root", "root");
+            DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:3306/tp6_db_java", "root", "");
 
             ResultSet rs = db.querySelect("SELECT * FROM ingredients");
             while (rs.next()) {
@@ -113,11 +113,8 @@ public class choixCommandeController {
                 ingredient.setPrice(rs.getBigDecimal("price"));
                 ingredient.setStock(rs.getInt("stock"));
                 ingredients.put(ingredient.getName(), ingredient);
-                //ingredient.register(obs);
-                //obs.setSubject(ingredient);
             }
             rs.close();
-            //updateQueryDemo();
         } catch (SQLException e) {
             ColorPrint.printError("SQL ERROR : " + e.getMessage());
         } catch (NullPointerException e) {
@@ -208,25 +205,30 @@ public class choixCommandeController {
         }
 
         //1ere condition pour aller dans l'etat "panne"
-        if (random < 100){
+        if (random < 10){
             context.setState(panneState);
             reparation.setVisible(true);
             engins.notifyTheObserver();
+            notice.setText("réparer la machine");
         }
 
-        //2eme conditions pour aller dans l'etat "manque"
+        //2eme conditions pour aller dans l'état "manque"
         else if(!EmptyIngredient.isEmpty()){
             context.setState(manqueState);
             approvisionner.setVisible(true);
-            //reservoir.notifyTheObserver();
+            reservoir.notifyTheObserver();
+            notice.setText("il manque d'ingredients");
+
         }
 
-        //3eme conditions pour aller dans l'etat "fabrication"
+        //3eme conditions pour aller dans l'état "fabrication"
         else {
+            notice.setText("confection en cours");
             context.setState(fabricationState);
             context.fabriquerCommande(commande);
             context.setState(attenteState);
             commande.clear();
+            notice.setText("choisir une nouvelle commande");
         }
     }
 
@@ -234,6 +236,7 @@ public class choixCommandeController {
         context.setState(attenteState);
         reparation.setVisible(false);
         engins.getUpdate();
+        notice.setText("choisir une commande");
     }
 
     @FXML protected void handleAppro (ActionEvent event) throws IOException{
@@ -245,55 +248,11 @@ public class choixCommandeController {
         EmptyIngredient.clear();
         approvisionner.setVisible(false);
         reservoir.getUpdate();
+        notice.setText("choisir une commande");
     }
 
     @FXML protected void handleRetour (ActionEvent event) throws IOException{
         App.setRoot("choixFactory");
     }
 
-    /**
-     * Insert, update, delete example.
-     */
-    private static void updateQueryDemo() {
-        try {
-            //DBSingleton db = DBSingleton.getSingleton(url, username, password);
-            DBSingleton db = DBSingleton.getSingleton();
-
-            Object[] arguments = new Object[2];
-            arguments[0] = formatDotDecimal(new BigDecimal(10.2));
-            arguments[1] = "N/A";
-
-            int result = db.queryUpdate("INSERT INTO ingredients(name, price) VALUES ('N/A', '0.0')");
-            ColorPrint.printDebug("inserting N/A into ingredients, return value : " + result);
-
-            result = db.queryUpdate("UPDATE ingredients SET price = %s WHERE name = '%s'", arguments);
-            ColorPrint.printDebug("updating ingredients return value : " + result);
-
-            ResultSet rs = db.querySelect("SELECT * FROM ingredients");
-
-            while (rs.next()) {
-                System.out.println(rs.getString("name") + " : " + rs.getBigDecimal("price"));
-            }
-            rs.close();
-
-            result = db.queryUpdate("DELETE FROM ingredients WHERE name = '%s'", arguments[1]);
-            ColorPrint.printDebug("delete dough from ingredients : " + result);
-
-        } catch (SQLException e) {
-            ColorPrint.printError("SQL Error : " + e.getMessage());
-        } catch (NullPointerException e) {
-            ColorPrint.printError(e.getMessage());
-        }
-    }
-
-    /**
-     * Get a money value as a string with a dot separator for decimals
-     * @param money the value to format
-     * @return a string representation of a money value
-     */
-    public static String formatDotDecimal(BigDecimal money) {
-        DecimalFormatSymbols decimalSymbol = DecimalFormatSymbols.getInstance();
-        decimalSymbol.setDecimalSeparator('.');
-        return new DecimalFormat("0.00", decimalSymbol).format(money);
-    }
 }

@@ -31,7 +31,7 @@ public class Fabrication implements State{
         do {
             while (monThreadGroup.activeCount() < 2 && !commande.isEmpty()) {
                 Pizza fabPizza = commande.get(0);
-                MonThread e = new MonThread(fabPizza, 10000);
+                MonThread e = new MonThread(fabPizza, 5000);
                 Thread t = new Thread(monThreadGroup, e);
                 t.start();
                 commande.remove(0);

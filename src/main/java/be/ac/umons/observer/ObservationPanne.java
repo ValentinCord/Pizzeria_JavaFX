@@ -1,4 +1,4 @@
-package be.ac.umons.Observer;
+package be.ac.umons.observer;
 
 import java.util.ArrayList;
 import java.util.List;
