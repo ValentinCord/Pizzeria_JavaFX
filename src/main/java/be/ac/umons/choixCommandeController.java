@@ -1,5 +1,7 @@
 package be.ac.umons;
 
+import be.ac.umons.Observer.*;
+import be.ac.umons.Observer.Observable;
 import be.ac.umons.database.DBSingleton;
 import be.ac.umons.decorationPizza.Cheesy;
 import be.ac.umons.decorationPizza.Decoration;
@@ -37,6 +39,12 @@ import java.util.*;
 
 public class choixCommandeController {
 
+    //Observer -> Pour les réservoirs
+    TheObserver fournisseur = new Fournisseur();
+    Observable reservoir = new ObservationResevoir();
+    //Observer -> Pour la panne
+    TheObserver reparateur = new Reparateur();
+    Observable engins = new ObservationResevoir();
     //ChoiceBox
     ObservableList<String> listPizza = FXCollections.observableArrayList("Margherita", "Proscuitto", "Carbonara","FruttiDiMare");
     ObservableList<String> listDeco = FXCollections.observableArrayList("Cheesy", "Pan", "Aucune");
@@ -70,11 +78,19 @@ public class choixCommandeController {
 
     //Initialisation des objets JavaFX
     @FXML private void initialize(){
+        //Fournisseur
+        reservoir.addTheObserver(fournisseur);
+        fournisseur.setObservable(reservoir);
+        //Réparateur
+        engins.addTheObserver(reparateur);
+        reparateur.setObservable(engins);
+        //Pizza
         choixPizza.setValue("Margherita");
         choixPizza.setItems(listPizza);
         choixDeco.setValue("Aucune");
         choixDeco.setItems(listDeco);
         titre.setText("Bienvenue chez "+factory);
+
         //initialisation de la fabrique
         if(factory == "PizzaHut"){
             fabrique = new PizzaHut();
@@ -192,16 +208,17 @@ public class choixCommandeController {
         }
 
         //1ere condition pour aller dans l'etat "panne"
-        if (random < 0){
+        if (random < 100){
             context.setState(panneState);
             reparation.setVisible(true);
+            engins.notifyTheObserver();
         }
 
         //2eme conditions pour aller dans l'etat "manque"
         else if(!EmptyIngredient.isEmpty()){
             context.setState(manqueState);
             approvisionner.setVisible(true);
-
+            //reservoir.notifyTheObserver();
         }
 
         //3eme conditions pour aller dans l'etat "fabrication"
@@ -216,6 +233,7 @@ public class choixCommandeController {
     @FXML protected void handleReparation (ActionEvent event) throws IOException{
         context.setState(attenteState);
         reparation.setVisible(false);
+        engins.getUpdate();
     }
 
     @FXML protected void handleAppro (ActionEvent event) throws IOException{
@@ -226,6 +244,7 @@ public class choixCommandeController {
         context.setState(attenteState);
         EmptyIngredient.clear();
         approvisionner.setVisible(false);
+        reservoir.getUpdate();
     }
 
     @FXML protected void handleRetour (ActionEvent event) throws IOException{
