@@ -64,7 +64,7 @@ public class choixCommandeController {
     ObservableList<String> EmptyIngredient = FXCollections.observableArrayList();
 
 
-    //Variables JavaFX avec le meme ID que dans scene builder
+    //Variables JavaFX avec le meme Id que dans scene builder
     @FXML private ChoiceBox choixPizza = new ChoiceBox();
     @FXML private ChoiceBox choixDeco = new ChoiceBox();
     @FXML private ListView commandeView = new ListView();
