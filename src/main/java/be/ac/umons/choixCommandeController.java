@@ -88,7 +88,7 @@ public class choixCommandeController {
         reparation.setVisible(false);
 
         try {
-            DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:3306/tp6_db_java", "root", "");
+            DBSingleton db = DBSingleton.getSingleton("jdbc:mysql://localhost:8889/tp6_db_java", "root", "root");
 
             ResultSet rs = db.querySelect("SELECT * FROM ingredients");
             while (rs.next()) {
@@ -210,7 +210,6 @@ public class choixCommandeController {
             context.fabriquerCommande(commande);
             context.setState(attenteState);
             commande.clear();
-            App.setRoot("choixFactory");
         }
     }
 
