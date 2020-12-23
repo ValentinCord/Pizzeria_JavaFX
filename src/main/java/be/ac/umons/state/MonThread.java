@@ -19,7 +19,7 @@ public class MonThread implements Runnable{
     }
 
     public static void finirPeparation() throws InterruptedException {
-        Thread.sleep(10000);
+        Thread.sleep(61000);
     }
 
 

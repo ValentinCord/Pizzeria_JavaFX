@@ -13,7 +13,7 @@
          <children>
             <ImageView disable="true" fitHeight="500.0" fitWidth="805.0" opacity="0.95" pickOnBounds="true" smooth="false">
                <image>
-                  <Image url="file:/D:/Polytech%20BAB3/Pizzeria/src/main/java/be/ac/umons/pizzaJPG.jpg" />
+                  <Image url="file:/Users/tanguyvans/IdeaProjects/Pizzeria_JavaFX/src/main/java/be/ac/umons/pizzaJPG.jpg" />
                </image>
             </ImageView>
             <Button fx:id="choixDominos" layoutX="488.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleChoixDominos" prefHeight="55.0" prefWidth="150.0" text="Domino's">
